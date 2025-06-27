@@ -25,13 +25,15 @@ interface DefaultPageLayoutRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   className?: string;
+  currentPage?: string;
+  onNavigate?: (page: string) => void;
 }
 
 const DefaultPageLayoutRoot = React.forwardRef<
   HTMLElement,
   DefaultPageLayoutRootProps
 >(function DefaultPageLayoutRoot(
-  { children, className, ...otherProps }: DefaultPageLayoutRootProps,
+  { children, className, currentPage = 'dashboard', onNavigate, ...otherProps }: DefaultPageLayoutRootProps,
   ref
 ) {
   return (
@@ -95,11 +97,19 @@ const DefaultPageLayoutRoot = React.forwardRef<
         }
         expanded={true}
       >
-        <SidebarCollapsible.NavItem icon={<FeatherHome />} selected={true}>
-          Home
+        <SidebarCollapsible.NavItem 
+          icon={<FeatherHome />} 
+          selected={currentPage === 'dashboard'}
+          onClick={() => onNavigate?.('dashboard')}
+        >
+          Dashboard
         </SidebarCollapsible.NavItem>
-        <SidebarCollapsible.NavItem icon={<FeatherInbox />}>
-          Inbox
+        <SidebarCollapsible.NavItem 
+          icon={<FeatherInbox />}
+          selected={currentPage === 'ticket-form'}
+          onClick={() => onNavigate?.('ticket-form')}
+        >
+          New Ticket
         </SidebarCollapsible.NavItem>
         <SidebarCollapsible.NavItem icon={<FeatherBarChart2 />}>
           Reports
