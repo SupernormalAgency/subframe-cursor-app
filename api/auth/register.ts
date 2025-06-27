@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole } from '../../../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -10,7 +10,8 @@ export default async function handler(req: any, res: any) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, password, firstName, lastName, company, role } = req.body;
+  const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+  const { email, password, firstName, lastName, company, role } = body;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required' });
   }
@@ -31,7 +32,7 @@ export default async function handler(req: any, res: any) {
       firstName,
       lastName,
       company,
-      role: role === 'AGENCY' ? UserRole.AGENCY : UserRole.CLIENT,
+      role: role === 'AGENCY' ? 'AGENCY' : 'CLIENT',
     },
   });
 
