@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "deploy": "vercel --prod",
     "deploy:preview": "vercel",
-    "vercel-build": "npm run build"
+    "vercel-build": "npm run build",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
